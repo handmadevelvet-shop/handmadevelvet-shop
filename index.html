@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta name="description" content="Handmade Velvet Shop ร้านดอกไม้ลวดกำมะหยี่ งานแฮนด์เมดดัดมือทุกช่อ น่ารัก สดใส เหมาะสำหรับเป็นของขวัญในทุกเทศกาล">
+    <meta name="keywords" content="ดอกไม้ลวดกำมะหยี่, ช่อดอกไม้แฮนด์เมด, ดอกไม้รับปริญญา, ของขวัญ, ลวดกำมะหยี่">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Handmade Velvet Shop | Handmade Flowers 🌸</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#FFF5F8", foreground: "#4A3240", primary: "#FF8EAA", 
+                        "primary-hover": "#FF7596", secondary: "#B2E0D8", accent: "#FFE17A", 
+                        tertiary: "#C3D3FF", pinky: "#FFA8C5", muted: "#FFE4ED", 
+                        "muted-foreground": "#A08693", border: "#FCD0DF", 
+                    },
+                    fontFamily: { sans: ["'Sarabun'", "sans-serif"], display: ["'Kanit'", "sans-serif"] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* แอนิเมชันสำหรับรูปแบนเนอร์โฆษณา */
+        .banner-slide { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1s ease-in-out; }
+        .banner-slide.active { opacity: 1; }
+    </style>
+</head>
+<body class="antialiased selection:bg-primary/20 bg-background text-foreground min-h-screen relative overflow-x-hidden">
+    
+    <nav id="main-nav" class="sticky top-0 z-50 h-[72px] bg-white/80 backdrop-blur-xl flex items-center px-5 w-full transition-all border-b-[3px] border-primary shadow-sm">
+        <div class="w-full max-w-6xl mx-auto flex justify-between items-center">
+            <div onclick="app.navigate('home')" class="flex items-center gap-2.5 cursor-pointer group transition-transform">
+                <div class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-tr from-primary via-pinky to-accent rounded-full flex items-center justify-center text-white shadow-md">
+                    <i data-lucide="flower-2" class="w-6 h-6 md:w-7 md:h-7"></i>
+                </div>
+                <div class="flex flex-col"><h1 class="font-display font-semibold text-xl md:text-2xl text-primary leading-none">Handmade Velvet </h1></div>
+            </div>
+            <div class="flex items-center gap-2 md:gap-4">
+                <button onclick="app.navigate('about')" class="px-4 py-1.5 text-sm md:text-base font-medium text-foreground bg-white hover:bg-secondary rounded-full border-2 border-border shadow-sm transition-colors">เกี่ยวกับร้าน</button>
+                <button onclick="app.cart.toggle()" class="relative p-2 md:p-2.5 text-foreground bg-white hover:bg-primary hover:text-white rounded-full border-2 border-border shadow-sm ml-1 transition-colors">
+                    <i data-lucide="shopping-bag" class="w-5 h-5 md:w-6 md:h-6"></i>
+                    <span id="cart-badge" class="absolute -top-2 -right-2 bg-accent text-foreground text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center shadow-md hidden border-2 border-white">0</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div id="view-home" class="view active w-full pb-20 max-w-6xl mx-auto">
+        <div class="px-5 pt-5 pb-3">
+            <div class="w-full h-[200px] md:h-[350px] lg:h-[450px] rounded-[1.5rem] md:rounded-[2rem] overflow-hidden relative shadow-md">
+                <div id="banner-slideshow">
+                    <img src="images/มีชื่อร้าน.jpg" class="banner-slide active">
+                    <img src="images/แจกัน.jpg" class="banner-slide">
+                    <img src="images/ไม่มีชื่อร้าน.jpg" class="banner-slide">
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6 md:p-12 lg:p-16">
+                    <span class="bg-primary text-white text-[10px] md:text-sm font-medium px-3 py-1 rounded-full w-fit mb-2 shadow-sm">คอลเลกชันใหม่</span>
+                    <h2 class="text-white text-2xl md:text-4xl lg:text-5xl font-display font-semibold drop-shadow-md leading-tight mb-2">ดอกไม้ที่ไม่มีวันร่วงโรย</h2>
+                    <p class="text-white/90 text-sm md:text-lg mt-1 font-sans drop-shadow-sm">เติมความหวานละมุนให้ทุกช่วงเวลา ด้วยดอกไม้ประดิษฐ์ทำมือ</p>
+                </div>
+                <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2" id="banner-dots">
+                    <div class="w-6 h-2 rounded-full bg-white transition-all"></div>
+                    <div class="w-2 h-2 rounded-full bg-white/50 transition-all"></div>
+                    <div class="w-2 h-2 rounded-full bg-white/50 transition-all"></div>
+                </div>
+            </div>
+        </div>
+        
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                const slides = document.querySelectorAll('.banner-slide');
+                const dots = document.querySelectorAll('#banner-dots div');
+                let cur = 0;
+                if (slides.length > 1) {
+                    setInterval(() => {
+                        slides[cur].classList.remove('active');
+                        dots[cur].classList.replace('w-6', 'w-2'); dots[cur].classList.replace('bg-white', 'bg-white/50');
+                        cur = (cur + 1) % slides.length;
+                        slides[cur].classList.add('active');
+                        dots[cur].classList.replace('w-2', 'w-6'); dots[cur].classList.replace('bg-white/50', 'bg-white');
+                    }, 4000);
+                }
+            });
+        </script>
+
+        <div class="px-5 mt-4 md:mt-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 sticky top-[72px] z-40 bg-background/95 backdrop-blur-md py-4 rounded-xl">
+            <div id="category-filters" class="flex gap-2.5 overflow-x-auto no-scrollbar pb-1 md:pb-0 w-full md:w-auto"></div>
+            <div class="relative bg-white rounded-full shadow-sm border-2 border-border overflow-hidden flex items-center h-12 w-full md:w-80 shrink-0">
+                <div class="bg-tertiary/10 h-full w-12 flex items-center justify-center rounded-l-full"><i data-lucide="search" class="w-5 h-5 text-tertiary"></i></div>
+                <input type="text" id="search-input" placeholder="ค้นหาดอกไม้ หรือของขวัญ..." class="w-full h-full bg-transparent pl-2 pr-4 text-base focus:outline-none text-foreground" oninput="app.home.filter()">
+            </div>
+        </div>
+
+        <div class="px-5 mt-6 mb-4 flex justify-between items-center">
+            <h3 class="font-display font-semibold text-[17px] md:text-2xl text-foreground" id="current-category-title">สินค้าทั้งหมด</h3>
+            <span id="product-count" class="text-[12px] md:text-sm text-muted-foreground bg-white px-3 py-1 rounded-full border border-border/50">0 รายการ</span>
+        </div>
+        <div id="product-grid" class="px-5 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-x-3 gap-y-5 pb-8"></div>
+        <div id="empty-state" class="hidden text-center py-16 px-4"><p>ไม่พบสินค้าที่คุณค้นหา</p></div>
+
+        <footer class="px-6 py-10 mt-10 md:mt-16 mb-4 text-center border-t border-border/50">
+            <div class="max-w-2xl mx-auto">
+                <p class="text-[14px] md:text-base text-muted-foreground leading-relaxed font-sans bg-white/80 p-5 md:p-8 rounded-3xl border border-white shadow-sm">
+                    "เราตั้งใจสร้างสรรค์ดอกไม้ทุกดอกด้วยมือ เพื่อส่งมอบความรู้สึกดีๆ ที่ไม่มีวันเหี่ยวเฉา ให้กับคนที่คุณรัก"
+                </p>
+                <div class="mt-6 flex justify-center gap-4">
+                    <a href="https://www.instagram.com/handmade_velvet/" class="p-3 bg-white rounded-full shadow-sm text-muted-foreground hover:text-primary transition-all border border-border/50 inline-flex">
+                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    </a>
+                </div>
+                <div class="text-[12px] md:text-sm text-muted-foreground/60 mt-8 font-sans">
+                    © 2026 Handmade Velvet Shop. All rights reserved.
+                </div>
+            </div>
+        </footer>
+    </div>
+    <div id="view-product" class="view w-full pb-28 md:pb-36 min-h-screen bg-background"></div>
+
+    <div id="view-about" class="view w-full pb-10 min-h-screen">
+        <div class="sticky top-0 z-50 bg-background/90 backdrop-blur-md px-4 py-4 flex items-center justify-center border-b border-border/50 h-[72px]">
+            <div class="w-full max-w-6xl mx-auto relative flex items-center justify-center">
+                <button onclick="app.navigate('home')" class="absolute left-0 flex items-center p-2 bg-white rounded-full shadow-sm border border-border/50">
+                    <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                </button>
+                <h1 class="font-display font-bold text-lg md:text-2xl">เกี่ยวกับร้าน</h1>
+            </div>
+        </div>
+
+        <div class="px-5 py-8 md:py-12 max-w-3xl mx-auto">
+            <div class="flex justify-center mb-8"><div class="w-24 h-24 bg-primary/10 rounded-full flex items-center justify-center text-primary shadow-sm"><i data-lucide="flower-2" class="w-12 h-12"></i></div></div>
+            <h2 class="text-center font-display font-semibold text-2xl mb-8">Handmade Velvet Shop</h2>
+            <div class="bg-white p-6 md:p-10 rounded-[1.5rem] shadow-sm border border-border/40 space-y-4">
+                <p class="font-sans text-[15px] md:text-lg leading-relaxed text-justify" style="text-indent: 2rem;">จุดเริ่มต้นของเรามาจากความตั้งใจเรียบง่าย ที่อยากจะสร้างดอกไม้ที่ไม่มีวันร่วงโรย เราหลงใหลในความนุ่มละมุนของลวดกำมะหยี่ จึงนำมาประดิษฐ์ ดัด โค้ง และจัดเรียงทีละกลีบด้วยความตั้งใจ</p>
+                <p class="font-sans text-[15px] md:text-lg leading-relaxed text-justify">เราเนรมิตดอกไม้ที่งดงามตามธรรมชาติ ผสมผสานกับจินตนาการและสีสันที่หลากหลาย เพื่อให้ดอกไม้ทุกดอกมีเอกลักษณ์เฉพาะตัว เหมาะสำหรับเป็นของขวัญในโอกาสพิเศษ</p>
+            </div>
+
+            <h3 class="font-display font-medium text-[18px] mt-12 mb-6 text-center md:text-left">จุดเด่นของเรา</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-border/30 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center shrink-0"><i data-lucide="heart" class="w-6 h-6 text-purple-500"></i></div>
+                    <div><h4 class="font-display font-medium text-[16px]">งานทำมือ 100%</h4><p class="text-[13px] text-muted-foreground mt-1">ดัดและประกอบมือทุกชิ้น</p></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-border/30 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center shrink-0"><i data-lucide="sparkles" class="w-6 h-6 text-purple-500"></i></div>
+                    <div><h4 class="font-display font-medium text-[16px]">ดีไซน์เฉพาะตัว</h4><p class="text-[13px] text-muted-foreground mt-1">โดดเด่นไม่ซ้ำใคร</p></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-border/30 flex items-center gap-4">
+                    <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shrink-0"><i data-lucide="gift" class="w-6 h-6 text-blue-500"></i></div>
+                    <div><h4 class="font-display font-medium text-[16px]">พร้อมเป็นของขวัญ</h4><p class="text-[13px] text-muted-foreground mt-1">แพ็คเกจสวยงาม ส่งมอบได้ทันที</p></div>
+                </div>
+            </div>
+
+            <div class="mt-12 bg-primary/5 rounded-[2rem] p-8 border border-primary/10 text-center">
+                <h4 class="font-display font-semibold text-lg text-foreground mb-3">สั่งทำพิเศษ</h4>
+                <p class="font-sans text-[14px] text-foreground mb-6 max-w-md mx-auto">สนใจสั่งทำดอกไม้ตามสีที่ชอบ หรือจัดช่อพิเศษเฉพาะคุณ ทักมาพูดคุยกับเราได้เลยค่ะ</p>
+                <a href="https://www.instagram.com/handmade_velvet/" class="bg-white text-primary border border-primary/30 px-6 py-3 rounded-full font-display font-medium text-[15px] inline-flex items-center gap-2 hover:bg-primary hover:text-white transition-colors shadow-sm">
+                    <i data-lucide="instagram" class="w-5 h-5"></i> ติดต่อสอบถามทาง Instagram
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div id="cart-drawer" class="fixed inset-0 z-[100] hidden flex justify-end">
+        <div onclick="app.cart.toggle()" class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 opacity-0" id="cart-overlay"></div>
+        <div id="cart-content" class="relative w-full max-w-md bg-background md:bg-white h-[85vh] md:h-full mt-auto md:mt-0 rounded-t-[2rem] md:rounded-none md:rounded-l-[2rem] shadow-2xl transition-transform duration-300 flex flex-col translate-y-full md:translate-y-0 md:translate-x-full">
+            
+            <div class="p-5 md:p-6 pb-4 flex justify-between items-center bg-white rounded-t-[2rem] border-b border-border/40">
+                <h2 class="font-display font-semibold text-[18px] text-foreground flex items-center gap-2"><i data-lucide="shopping-bag" class="w-5 h-5 text-primary"></i> ตะกร้าสินค้า</h2>
+                <button onclick="app.cart.toggle()" class="p-2 rounded-full hover:bg-muted"><i data-lucide="x"></i></button>
+            </div>
+            
+            <div id="cart-items" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-3 no-scrollbar"></div>
+            
+            <div class="px-5 py-4 bg-primary/5 border-t border-border/50 text-center">
+                <p class="font-display font-medium text-sm text-primary mb-1">✨ ขั้นตอนการสั่งซื้อ</p>
+                <p class="text-[12px] md:text-[13px] text-muted-foreground leading-relaxed font-sans">
+                    ทางร้านมี <strong class="text-foreground">ค่าจัดส่งทั่วประเทศ 50 บาท</strong> (รวมในยอดแล้ว)<br>
+                    เมื่อกดสั่งซื้อ ระบบจะคัดลอกรายการไปส่งทาง Instagram <br>
+                    <strong class="text-foreground font-medium">รอร้านแจ้งช่องทางชำระเงิน โอนแล้วแจ้งที่อยู่ในแชทได้เลยค่ะ</strong>
+                </p>
+            </div>
+
+            <div class="p-5 md:p-6 bg-white border-t border-border/50 shadow-[0_-5px_15px_rgba(0,0,0,0.02)]">
+                <div class="space-y-2 mb-4">
+                    <div class="flex justify-between items-center text-[13px] md:text-sm text-muted-foreground">
+                        <span>ยอดรวมสินค้า <span class="text-[11px]">(เฉพาะชิ้นที่เลือก)</span></span>
+                        <span id="cart-subtotal">0 ฿</span>
+                    </div>
+                    <div class="flex justify-between items-center text-[13px] md:text-sm text-muted-foreground">
+                        <span>ค่าจัดส่งทั่วประเทศ</span>
+                        <span id="cart-shipping">0 ฿</span>
+                    </div>
+                    <div class="border-t border-border/50 pt-3 flex justify-between items-end mt-2">
+                        <span class="font-sans text-[15px] text-foreground font-medium">ยอดชำระทั้งหมด</span>
+                        <span id="cart-total" class="text-primary font-display font-semibold text-2xl md:text-3xl leading-none">0 ฿</span>
+                    </div>
+                </div>
+
+                <button onclick="app.cart.checkout()" id="checkout-btn" class="w-full bg-primary hover:bg-[#E85D9F] disabled:opacity-50 text-white h-[54px] md:h-[60px] rounded-full font-sans font-medium text-[16px] flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-md">
+                    <i data-lucide="instagram" class="w-5 h-5"></i> คัดลอก & สั่งซื้อทาง Instagram
+                </button>
+            </div>
+        </div>
+    </div>
+
+   <script src="products.js"></script>
+   <script src="main.js"></script>
+</body>
+</html>
