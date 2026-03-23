@@ -107,9 +107,10 @@ const app = {
             }
 
             container.innerHTML = `
-                <div class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between w-full">
-                    <button onclick="app.navigate('home')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-                </div>
+              <div class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between w-full">
+    <button onclick="app.navigate('home')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+    <button onclick="app.cart.toggle()" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50 text-foreground hover:bg-primary hover:text-white transition-colors"><i data-lucide="shopping-bag" class="w-5 h-5"></i></button>
+</div>
                 
                 <div class="max-w-5xl mx-auto md:flex md:gap-10 md:pt-24 pb-10">
                     <div class="w-full md:w-1/2">
