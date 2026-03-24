@@ -6,7 +6,10 @@ const app = {
     state: {
         cart: JSON.parse(localStorage.getItem('cart')) || [], 
         currentView: 'home', 
-        currentProductId: null, 
+        currentProductId: null,
+        modalProductId: null,
+        modalQty: 1,
+        modalOption: '',
         home: { category: 'ทั้งหมด', search: '' }, 
         product: { qty: 1, activeTab: 'story' } 
     },
