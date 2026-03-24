@@ -84,7 +84,7 @@ const app = {
                         <h3 class="font-sans text-[14px] font-medium leading-tight mb-2 text-foreground line-clamp-2">${p.name} ${p.emoji ? p.emoji : ''}</h3>
                         <div class="mt-auto flex justify-between items-end pt-2">
                             <span class="font-display font-semibold text-[16px] text-primary leading-none">฿${p.price}</span>
-                            <button onclick="event.stopPropagation(); app.cart.add(${p.id}, 1)" class="w-8 h-8 bg-[#E85D9F] text-white rounded-full flex items-center justify-center hover:scale-110 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            <button onclick="event.stopPropagation(); app.cart.openQtyModal(${p.id}, 1)" class="w-8 h-8 bg-[#E85D9F] text-white rounded-full flex items-center justify-center hover:scale-110 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>`).join('');
@@ -147,10 +147,9 @@ const app = {
                 <div class="fixed bottom-0 left-0 right-0 z-50 bg-white px-4 py-3 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] border-t border-border/50">
                     <div class="max-w-5xl mx-auto flex gap-3 justify-end items-center">
                         ${/* โค้ดปุ่มเพิ่มลงตะกร้า จะดึงค่าสีที่ลูกค้าเลือกไปด้วย */ ''}
-                        <button onclick="const opt = document.getElementById('item-option') ? document.getElementById('item-option').value : ''; app.cart.add(${p.id}, app.state.product.qty, opt);"
-class="flex-1 h-[50px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
-                            <i data-lucide="shopping-bag" class="w-5 h-5"></i> เพิ่มลงตะกร้า
-                        </button>
+                        <button onclick="const opt = document.getElementById('item-option') ? document.getElementById('item-option').value : ''; app.cart.openQtyModal(${p.id}, opt);" class="flex-1 h-[50px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+    <i data-lucide="shopping-bag" class="w-5 h-5"></i> เพิ่มลงตะกร้า
+</button>
                     </div>
                 </div>`;
             
