@@ -208,7 +208,7 @@ const app = {
                 content.classList.add('translate-y-full', 'md:translate-x-full');
                 overlay.classList.replace('opacity-100', 'opacity-0');
                 setTimeout(() => drawer.classList.add('hidden'), 300); 
-            }
+            },
             openQtyModal(id, option = '') {
             const p = products.find(x => x.id === id);
             if (!p) return;
