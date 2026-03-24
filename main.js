@@ -209,6 +209,36 @@ const app = {
                 overlay.classList.replace('opacity-100', 'opacity-0');
                 setTimeout(() => drawer.classList.add('hidden'), 300); 
             }
+            openQtyModal(id, option = '') {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            app.state.modalProductId = id; app.state.modalQty = 1; app.state.modalOption = option;
+            document.getElementById('qty-modal-name').innerText = p.name + (option ?  (แบบ: ${option}) : '');
+            document.getElementById('qty-modal-price').innerText = p.price + ' ฿';
+            document.getElementById('qty-modal-img').src = p.image;
+            document.getElementById('qty-modal-count').innerText = app.state.modalQty;
+            const modal = document.getElementById('qty-modal');
+            modal.classList.remove('hidden'); modal.classList.add('flex');
+            setTimeout(() => document.getElementById('qty-modal-content').classList.remove('scale-95', 'opacity-0'), 10);
+            lucide.createIcons();
+        },
+        closeQtyModal() {
+            document.getElementById('qty-modal-content').classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                const modal = document.getElementById('qty-modal');
+                modal.classList.remove('flex'); modal.classList.add('hidden');
+            }, 200);
+        },
+        changeModalQty(change) {
+            let newQty = app.state.modalQty + change;
+            if (newQty < 1) newQty = 1; if (newQty > 99) newQty = 99;
+            app.state.modalQty = newQty;
+            document.getElementById('qty-modal-count').innerText = app.state.modalQty;
+        },
+        confirmModalAdd() {
+            this.add(app.state.modalProductId, app.state.modalQty, app.state.modalOption);
+            this.closeQtyModal();
+        },
         },
         
         // add() โค้ดส่วนนี้รับข้อมูลสินค้า จำนวน และ "สีที่เลือก" เอาไปเก็บในตะกร้า
