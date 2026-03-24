@@ -211,6 +211,29 @@
         </div>
     </div>
    <script src="products.js"></script>
+    <div id="qty-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40 backdrop-blur-sm transition-opacity">
+        <div class="bg-white rounded-2xl w-[90%] max-w-sm p-5 shadow-xl transform scale-95 transition-transform duration-200" id="qty-modal-content">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-display text-lg font-semibold text-foreground">ระบุจำนวนที่ต้องการ</h3>
+                <button onclick="app.cart.closeQtyModal()" class="text-muted-foreground hover:text-red-500"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="flex items-center gap-4 mb-6 p-3 bg-muted/50 rounded-xl border border-border/50">
+                <img id="qty-modal-img" src="" class="w-16 h-16 rounded-lg object-cover bg-white shadow-sm">
+                <div>
+                    <div id="qty-modal-name" class="font-medium text-foreground text-[15px] line-clamp-1">ชื่อสินค้า</div>
+                    <div id="qty-modal-price" class="text-primary font-semibold mt-1">0 ฿</div>
+                </div>
+            </div>
+            <div class="flex items-center justify-center gap-6 mb-6">
+                <button onclick="app.cart.changeModalQty(-1)" class="w-12 h-12 rounded-full bg-muted flex items-center justify-center hover:bg-border transition-colors text-foreground"><i data-lucide="minus" class="w-5 h-5"></i></button>
+                <span id="qty-modal-count" class="text-3xl font-display font-semibold w-12 text-center text-foreground">1</span>
+                <button onclick="app.cart.changeModalQty(1)" class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center hover:bg-primary-hover transition-colors shadow-sm"><i data-lucide="plus" class="w-5 h-5"></i></button>
+            </div>
+            <button onclick="app.cart.confirmModalAdd()" class="w-full bg-primary hover:bg-primary-hover text-white rounded-full py-3.5 font-medium flex justify-center items-center gap-2 shadow-md transition-transform active:scale-95">
+                <i data-lucide="shopping-cart" class="w-5 h-5"></i> ยืนยันเพิ่มลงตะกร้า
+            </button>
+        </div>
+    </div>
    <script src="main.js"></script>
 </body>
 </html>
