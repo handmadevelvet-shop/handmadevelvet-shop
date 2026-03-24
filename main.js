@@ -240,7 +240,6 @@ const app = {
             this.add(app.state.modalProductId, app.state.modalQty, app.state.modalOption);
             this.closeQtyModal();
         },
-        
         // add() โค้ดส่วนนี้รับข้อมูลสินค้า จำนวน และ "สีที่เลือก" เอาไปเก็บในตะกร้า
         add(id, qty = 1, option = '') {
             const p = products.find(x => x.id === id);
