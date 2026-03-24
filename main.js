@@ -107,10 +107,9 @@ const app = {
                 `).join('') + `</div>`;
             }
 
-            container.innerHTML = `
-               <div class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between w-full">
-                    <button onclick="app.navigate('home')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-                    <button onclick="app.cart.toggle()" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50 text-foreground hover:bg-primary hover:text-white transition-colors"><i data-lucide="shopping-bag" class="w-5 h-5"></i></button>
+           container.innerHTML = `
+               <div class="fixed top-0 left-0 right-0 z-40 px-4 py-3 flex items-center w-full">
+                    <button onclick="app.navigate('home')" class="w-11 h-11 bg-white/95 backdrop-blur-md rounded-full flex items-center justify-center shadow-md border border-border/50 text-foreground"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
                 </div>
                 
                 <div class="max-w-5xl mx-auto md:flex md:gap-10 md:pt-24 pb-10">
@@ -141,10 +140,15 @@ const app = {
                     </div>
                 </div>
                 
+                <button id="floating-cart-btn" style="touch-action: none;" class="fixed bottom-[90px] right-4 z-50 w-14 h-14 bg-white text-primary rounded-full flex items-center justify-center shadow-[0_8px_20px_rgba(244,114,182,0.4)] border-2 border-primary/20 hover:scale-105 transition-transform cursor-move">
+                    <i data-lucide="shopping-cart" class="w-6 h-6 pointer-events-none"></i>
+                    <span id="cart-badge-float" class="absolute -top-1 -right-1 bg-accent text-foreground text-[12px] font-bold rounded-full w-6 h-6 flex items-center justify-center shadow-md hidden border-2 border-white pointer-events-none">0</span>
+                </button>
+
                 <div class="fixed bottom-0 left-0 right-0 z-50 bg-white px-4 py-3 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] border-t border-border/50">
                     <div class="max-w-5xl mx-auto flex gap-3 justify-end items-center">
                         <button onclick="const opt = document.getElementById('item-option') ? document.getElementById('item-option').value : ''; app.cart.openQtyModal(${p.id}, opt);"
-                            class="flex-1 h-[50px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+                            class="w-full h-[54px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all text-[16px]">
                             <i data-lucide="shopping-bag" class="w-5 h-5"></i> เพิ่มลงตะกร้า
                         </button>
                     </div>
@@ -152,7 +156,11 @@ const app = {
             
             this.setTab(app.state.product.activeTab, p);
             lucide.createIcons();
+            app.cart.updateUI();
+            const floatBtn = document.getElementById('floating-cart-btn');
+            if(floatBtn) this.initDrag(floatBtn);
         },
+    
 
         setTab(tabId, obj = null) {
             app.state.product.activeTab = tabId;
@@ -189,6 +197,64 @@ const app = {
                        </div>`;
             }
             lucide.createIcons();
+        },
+
+
+        // ระบบลาก-วาง ปุ่มตะกร้าลอยตัว (เวอร์ชันแก้บั๊ก Ghost Click)
+        initDrag(elmnt) {
+            let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            let isDragging = false; 
+
+            elmnt.onmousedown = dragStart;
+            elmnt.ontouchstart = dragStart;
+
+            // 1. แยกคำสั่งคลิกเปิดตะกร้า มาไว้ตรงนี้ เพื่อป้องกันมือถือกดเบิ้ล
+            elmnt.onclick = function(e) {
+                if (!isDragging) {
+                    app.cart.toggle(); 
+                }
+            };
+
+            function dragStart(e) {
+                isDragging = false;
+                e = e || window.event;
+                let touch = e.type === 'touchstart' ? e.touches[0] : e;
+                pos3 = touch.clientX;
+                pos4 = touch.clientY;
+                document.onmouseup = dragEnd;
+                document.ontouchend = dragEnd;
+                document.onmousemove = dragMove;
+                document.ontouchmove = dragMove;
+            }
+
+            function dragMove(e) {
+                e = e || window.event;
+                let touch = e.type === 'touchmove' ? e.touches[0] : e;
+                
+                // เช็คว่าขยับนิ้วเกิน 5px ถือว่า "ลาก" ไม่ใช่ "กด"
+                let dx = Math.abs(touch.clientX - pos3);
+                let dy = Math.abs(touch.clientY - pos4);
+                if (dx > 5 || dy > 5) isDragging = true; 
+
+                if (isDragging) {
+                    pos1 = pos3 - touch.clientX;
+                    pos2 = pos4 - touch.clientY;
+                    pos3 = touch.clientX;
+                    pos4 = touch.clientY;
+                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+                    elmnt.style.bottom = "auto";
+                    elmnt.style.right = "auto";
+                }
+            }
+
+            function dragEnd() {
+                // 2. ลบคำสั่งเปิดตะกร้าจากตรงนี้ออกไป เพื่อไม่ให้มันทำงานซ้ำซ้อน
+                document.onmouseup = null;
+                document.onmousemove = null;
+                document.ontouchend = null;
+                document.ontouchmove = null;
+            }
         }
     },
     cart: {
@@ -336,9 +402,14 @@ const app = {
             const shippingFee = selectedItems.length > 0 ? 50 : 0; 
             const grandTotal = subTotal + shippingFee;
 
-            const badge = document.getElementById('cart-badge');
             const totalItems = app.state.cart.reduce((s, i) => s + i.qty, 0);
+            const badge = document.getElementById('cart-badge'); // จุดแดงปุ่มหน้าแรก
+            const badgeTop = document.getElementById('cart-badge-top'); // จุดแดงปุ่มมุมบน (หน้าย่อย)
+            const badgeFloat = document.getElementById('cart-badge-float'); // จุดแดงปุ่มลอยตัว (หน้าย่อย)
+
             if (badge) { badge.innerText = totalItems; badge.classList.toggle('hidden', totalItems === 0); }
+            if (badgeTop) { badgeTop.innerText = totalItems; badgeTop.classList.toggle('hidden', totalItems === 0); }
+            if (badgeFloat) { badgeFloat.innerText = totalItems; badgeFloat.classList.toggle('hidden', totalItems === 0); }
             
             const subtotalEl = document.getElementById('cart-subtotal');
             if (subtotalEl) subtotalEl.innerText = `${subTotal} ฿`;
