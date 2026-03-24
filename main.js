@@ -48,7 +48,6 @@ const app = {
         lucide.createIcons();
     },
 
-    // home คือระบบที่จัดการหน้าแรก (กล่องค้นหา, หมวดหมู่, และการวาดกล่องสินค้า)
     home: {
         renderCategories() {
             const container = document.getElementById('category-filters');
@@ -84,17 +83,16 @@ const app = {
                         <h3 class="font-sans text-[14px] font-medium leading-tight mb-2 text-foreground line-clamp-2">${p.name} ${p.emoji ? p.emoji : ''}</h3>
                         <div class="mt-auto flex justify-between items-end pt-2">
                             <span class="font-display font-semibold text-[16px] text-primary leading-none">฿${p.price}</span>
-                            <button onclick="event.stopPropagation(); app.cart.openQtyModal(${p.id}, 1)" class="w-8 h-8 bg-[#E85D9F] text-white rounded-full flex items-center justify-center hover:scale-110 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
+                            <button onclick="event.stopPropagation(); app.cart.openQtyModal(${p.id})" class="w-8 h-8 bg-[#E85D9F] text-white rounded-full flex items-center justify-center hover:scale-110 transition-all"><i data-lucide="plus" class="w-4 h-4"></i></button>
                         </div>
                     </div>
                 </div>`).join('');
             lucide.createIcons(); 
         }
-    },// product คือระบบจัดการหน้ารายละเอียดสินค้าเมื่อลูกค้ากดเข้ามาดู
+    },
     product: {
-        // render() ทำหน้าที่ดึงข้อมูลสินค้าชิ้นนั้นๆ มาวาดแสดงบนหน้าจอ
         render(id) {
-            const p = products.find(x => x.id === id); 
+            const p = products.find(x => x.id === id);
             if (!p) return;
             app.state.product.qty = 1; 
             const container = document.getElementById('view-product');
@@ -110,10 +108,10 @@ const app = {
             }
 
             container.innerHTML = `
-              <div class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between w-full">
-    <button onclick="app.navigate('home')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
-    <button onclick="app.cart.toggle()" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50 text-foreground hover:bg-primary hover:text-white transition-colors"><i data-lucide="shopping-bag" class="w-5 h-5"></i></button>
-</div>
+               <div class="fixed top-0 left-0 right-0 z-50 px-4 py-3 flex items-center justify-between w-full">
+                    <button onclick="app.navigate('home')" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+                    <button onclick="app.cart.toggle()" class="w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm border border-border/50 text-foreground hover:bg-primary hover:text-white transition-colors"><i data-lucide="shopping-bag" class="w-5 h-5"></i></button>
+                </div>
                 
                 <div class="max-w-5xl mx-auto md:flex md:gap-10 md:pt-24 pb-10">
                     <div class="w-full md:w-1/2">
@@ -127,7 +125,6 @@ const app = {
                         <h1 class="font-display font-semibold text-[28px] text-foreground">${p.name} ${p.emoji ? p.emoji : ''}</h1>
                         <span class="font-display text-3xl text-primary font-semibold mt-2">฿${p.price}</span>
              
-                        ${/* โค้ดส่วนนี้จะเช็คว่าสินค้ามีตัวเลือกหรือไม่ ถ้ามีจะสร้าง Dropdown ให้เลือก */ ''}
                         ${p.options && p.options.length > 0 ? `
                         <div class="mt-4">
                             <label class="text-[13px] text-muted-foreground mb-1 block">ตัวเลือกสินค้า:</label>
@@ -146,10 +143,10 @@ const app = {
                 
                 <div class="fixed bottom-0 left-0 right-0 z-50 bg-white px-4 py-3 shadow-[0_-10px_30px_rgba(0,0,0,0.05)] border-t border-border/50">
                     <div class="max-w-5xl mx-auto flex gap-3 justify-end items-center">
-                        ${/* โค้ดปุ่มเพิ่มลงตะกร้า จะดึงค่าสีที่ลูกค้าเลือกไปด้วย */ ''}
-                        <button onclick="const opt = document.getElementById('item-option') ? document.getElementById('item-option').value : ''; app.cart.openQtyModal(${p.id}, opt);" class="flex-1 h-[50px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
-    <i data-lucide="shopping-bag" class="w-5 h-5"></i> เพิ่มลงตะกร้า
-</button>
+                        <button onclick="const opt = document.getElementById('item-option') ? document.getElementById('item-option').value : ''; app.cart.openQtyModal(${p.id}, opt);"
+                            class="flex-1 h-[50px] bg-[#E85D9F] hover:bg-pink-600 text-white rounded-full font-medium flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all">
+                            <i data-lucide="shopping-bag" class="w-5 h-5"></i> เพิ่มลงตะกร้า
+                        </button>
                     </div>
                 </div>`;
             
@@ -157,7 +154,6 @@ const app = {
             lucide.createIcons();
         },
 
-        // setTab() จัดการปุ่มสลับแท็บ รายละเอียด/ข้อมูลจำเพาะ
         setTab(tabId, obj = null) {
             app.state.product.activeTab = tabId;
             const p = obj || products.find(x => x.id === app.state.currentProductId); 
@@ -195,12 +191,12 @@ const app = {
             lucide.createIcons();
         }
     },
-    // cart คือระบบตะกร้าสินค้าทั้งหมด
     cart: {
         // toggle() ใช้เปิด-ปิด หน้าต่างตะกร้าด้านข้าง
         toggle() {
             const drawer = document.getElementById('cart-drawer');
-            const content = document.getElementById('cart-content'); const overlay = document.getElementById('cart-overlay');
+            const content = document.getElementById('cart-content'); 
+            const overlay = document.getElementById('cart-overlay');
             if(drawer.classList.contains('hidden')) { 
                 drawer.classList.remove('hidden');
                 requestAnimationFrame(() => { content.classList.remove('translate-y-full', 'md:translate-x-full'); overlay.classList.replace('opacity-0', 'opacity-100'); });
@@ -210,42 +206,56 @@ const app = {
                 setTimeout(() => drawer.classList.add('hidden'), 300); 
             }
         },
+
+        // --- ระบบหน้าต่างเลือกจำนวน ---
         openQtyModal(id, option = '') {
             const p = products.find(x => x.id === id);
             if (!p) return;
-            app.state.modalProductId = id; app.state.modalQty = 1; app.state.modalOption = option;
-            document.getElementById('qty-modal-name').innerText = p.name + (option ?  (แบบ: ${option}) : '');
+            app.state.modalProductId = id;
+            app.state.modalQty = 1;
+            app.state.modalOption = option;
+
+            document.getElementById('qty-modal-name').innerText = p.name + (option ? ` (แบบ: ${option})` : '');
             document.getElementById('qty-modal-price').innerText = p.price + ' ฿';
             document.getElementById('qty-modal-img').src = p.image;
             document.getElementById('qty-modal-count').innerText = app.state.modalQty;
+
             const modal = document.getElementById('qty-modal');
-            modal.classList.remove('hidden'); modal.classList.add('flex');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
             setTimeout(() => document.getElementById('qty-modal-content').classList.remove('scale-95', 'opacity-0'), 10);
             lucide.createIcons();
         },
+
         closeQtyModal() {
             document.getElementById('qty-modal-content').classList.add('scale-95', 'opacity-0');
             setTimeout(() => {
                 const modal = document.getElementById('qty-modal');
-                modal.classList.remove('flex'); modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
             }, 200);
         },
+
         changeModalQty(change) {
             let newQty = app.state.modalQty + change;
-            if (newQty < 1) newQty = 1; if (newQty > 99) newQty = 99;
+            if (newQty < 1) newQty = 1;
+            if (newQty > 99) newQty = 99;
             app.state.modalQty = newQty;
             document.getElementById('qty-modal-count').innerText = app.state.modalQty;
         },
+
         confirmModalAdd() {
             this.add(app.state.modalProductId, app.state.modalQty, app.state.modalOption);
             this.closeQtyModal();
         },
+        // -----------------------------
+        
         // add() โค้ดส่วนนี้รับข้อมูลสินค้า จำนวน และ "สีที่เลือก" เอาไปเก็บในตะกร้า
         add(id, qty = 1, option = '') {
             const p = products.find(x => x.id === id);
-            const exist = app.state.cart.find(x => x.id === id && x.option === option); 
+            const exist = app.state.cart.find(x => x.id === id && x.option === option);
             if (exist) { 
-                exist.qty += qty; 
+                exist.qty += qty;
                 exist.selected = true;
             } else { 
                 app.state.cart.push({ ...p, qty, selected: true, option: option });
@@ -253,8 +263,12 @@ const app = {
             
             this.save();
             this.updateUI(); 
-            if (app.state.currentView === 'home') this.toggle(); 
-            else alert("เพิ่มลงตะกร้าแล้ว"); 
+            
+            // ให้ตะกร้าเด้งเปิดขึ้นมาอัตโนมัติ เพื่อให้ลูกค้าเห็นว่าเพิ่มของสำเร็จแล้ว
+            const drawer = document.getElementById('cart-drawer');
+            if(drawer.classList.contains('hidden')) {
+                this.toggle(); 
+            }
         },
         
         remove(id, option = '') { 
@@ -273,36 +287,28 @@ const app = {
         },
         
         save() { localStorage.setItem('cart', JSON.stringify(app.state.cart)); },
-        
-        // checkout() โค้ดสำคัญสำหรับคำนวณยอดเงินรวมและสร้างข้อความส่งเข้า Instagram
-        // checkout() โค้ดสำคัญสำหรับคำนวณยอดเงินรวมและสร้างข้อความส่งเข้า Instagram
         checkout() {
             const selectedItems = app.state.cart.filter(i => i.selected);
             if (!selectedItems.length) { alert("กรุณาเลือกสินค้าอย่างน้อย 1 ชิ้นค่ะ"); return; }
             
             const total = selectedItems.reduce((s, i) => s + (i.price * i.qty), 0);
-            const totalQty = selectedItems.reduce((s, i) => s + i.qty, 0); // นับจำนวนชิ้นทั้งหมด
-            const shippingFee = 50; 
+            const totalQty = selectedItems.reduce((s, i) => s + i.qty, 0);
+            const shippingFee = 50;
             const grandTotal = total + shippingFee;
-
             const shopName = "Handmade Velvet"; 
 
             let msg = `✦ ใบสั่งซื้อสินค้า | ${shopName} ✦\n`;
             msg += `━━━━━━━━━━━━━━━━━━━━\n`;
             
-            // --- เงื่อนไขแยกรูปแบบข้อความ ---
             if (selectedItems.length <= 10) {
-                // ถ้าสั่ง 10 รายการหรือน้อยกว่า ให้แสดงแบบไล่รายการปกติ
                 selectedItems.forEach(i => { 
                     const optText = i.option ? ` [${i.option}]` : '';
                     msg += `▪️ ${i.name}${optText}\n   จำนวน: ${i.qty} ชิ้น | ${i.price * i.qty} ฿\n`; 
                 });
             } else {
-                // ถ้าสั่งเกิน 10 รายการ ให้แสดงแบบย่อ
                 msg += `📦 รายการสินค้าที่เลือก: ${selectedItems.length} แบบ (รวม ${totalQty} ชิ้น)\n`;
                 msg += `*(เนื่องจากรายการสินค้ามีจำนวนมาก ระบบจึงสรุปยอดรวมเพื่อความสะดวกในการตรวจสอบนะคะ)*\n`;
             }
-            // -----------------------------
 
             msg += `━━━━━━━━━━━━━━━━━━━━\n`;
             msg += `ยอดรวมสินค้า : ${total} ฿\n`;
@@ -314,14 +320,14 @@ const app = {
             msg += `2. หลังชำระเงินเรียบร้อยแล้ว สามารถแนบสลิป พร้อมแจ้งชื่อ-ที่อยู่จัดส่งได้เลยค่ะ\n\n`;
             msg += `✨ ขอบพระคุณที่ไว้วางใจให้ ${shopName} ดูแลนะคะ 🤍`;
 
-            const igUrl = 'https://www.instagram.com/handmade_velvet/'; 
+            const igUrl = 'https://www.instagram.com/handmade_velvet/';
             navigator.clipboard.writeText(msg).then(() => {
                 alert("คัดลอกรายการแล้ว! ระบบจะพาท่านไปยัง Instagram เพื่อส่งข้อความหาแอดมินนะคะ ✨"); window.location.href = igUrl;
             }).catch(() => {
                 alert("คัดลอกไม่สำเร็จ แต่ระบบจะพาท่านไปยัง Instagram ค่ะ"); window.location.href = igUrl;
             });
         },
-        // updateUI() โค้ดส่วนนี้ทำหน้าที่วาดหน้าตาตะกร้า เอาชื่อสินค้า ราคา และสีที่เลือกมาแสดงผลให้ลูกค้าเห็น
+        
         updateUI() {
             const elItems = document.getElementById('cart-items');
             const selectedItems = app.state.cart.filter(i => i.selected);
@@ -342,7 +348,6 @@ const app = {
             
             if (!elItems) return;
             const checkoutBtn = document.getElementById('checkout-btn');
-
             if (!app.state.cart.length) {
                 if(checkoutBtn) checkoutBtn.disabled = true;
                 elItems.innerHTML = `<div class="py-16 text-center text-muted-foreground/60"><p>ตะกร้าว่างเปล่า</p></div>`;
@@ -380,5 +385,5 @@ const app = {
     }
 };
 
-// โค้ดบรรทัดสุดท้าย: สั่งให้ระบบ app.init() เริ่มทำงานเมื่อเบราว์เซอร์โหลดหน้าเว็บเสร็จ
+// โค้ดบรรทัดสุดท้าย: สั่งให้ระบบ app.init() เริ่มทำงานเมื่อเบราว์เซอร์โหลดหน้าเสร็จ
 document.addEventListener('DOMContentLoaded', () => app.init());
