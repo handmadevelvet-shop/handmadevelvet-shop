@@ -41,7 +41,7 @@ const app = {
         if (view === 'product' && id) this.product.render(id);
         else if (view === 'home') this.home.filter();
         
-if (pushState) {
+        if (pushState) {
             // ดึง URL ปัจจุบันมาแบบเต็มๆ (ปลอดภัยสุดสำหรับ GitHub Pages)
             const currentUrl = new URL(window.location.href);
             
