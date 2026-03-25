@@ -41,8 +41,10 @@ const app = {
         if (view === 'product' && id) this.product.render(id);
         else if (view === 'home') this.home.filter();
         
-        if (pushState) {
-            const url = view === 'home' ? '/' : `?product=${id}`;
+       if (pushState) {
+            // ใช้ window.location.pathname เพื่อรักษาชื่อโฟลเดอร์ของ GitHub Pages ไว้
+            const basePath = window.location.pathname; 
+            const url = view === 'home' ? basePath : basePath + ?product=${id};
             window.history.pushState({ view, id }, '', url);
         }
         lucide.createIcons();
