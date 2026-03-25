@@ -46,7 +46,7 @@ const app = {
             const basePath = window.location.pathname; 
             const url = view === 'home' ? basePath : basePath + ?product=${id};
             window.history.pushState({ view, id }, '', url);
-        } 
+        }
         lucide.createIcons();
     },
 
