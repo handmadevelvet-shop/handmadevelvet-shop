@@ -41,11 +41,17 @@ const app = {
         if (view === 'product' && id) this.product.render(id);
         else if (view === 'home') this.home.filter();
         
-       if (pushState) {
-            // ใช้ window.location.pathname เพื่อรักษาชื่อโฟลเดอร์ของ GitHub Pages ไว้
-            const basePath = window.location.pathname; 
-            const url = view === 'home' ? basePath : basePath + ?product=${id};
-            window.history.pushState({ view, id }, '', url);
+if (pushState) {
+            // ดึง URL ปัจจุบันมาแบบเต็มๆ (ปลอดภัยสุดสำหรับ GitHub Pages)
+            const currentUrl = new URL(window.location.href);
+            
+            if (view === 'home') {
+                currentUrl.searchParams.delete('product'); // ถ้ากลับหน้าแรก ให้ลบ ?product ออก
+            } else {
+                currentUrl.searchParams.set('product', id); // ถ้าเข้าหน้าสินค้า ให้ใส่ ?product=ไอดี
+            }
+            
+            window.history.pushState({ view, id }, '', currentUrl.toString());
         }
         lucide.createIcons();
     },
