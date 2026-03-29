@@ -304,12 +304,16 @@ const app = {
                 msg += `📦 รายการสินค้าที่เลือก: ${selectedItems.length} แบบ (รวม ${totalQty} ชิ้น)\n*(ระบบสรุปยอดรวมเพื่อความสะดวกค่ะ)*\n`; 
             }
             
-            msg += `━━━━━━━━━━━━━━━━━━━━\nยอดรวม : ${total} ฿\nค่าจัดส่ง : ${shippingFee} ฿\nยอดสุทธิ : ${grandTotal} ฿\n━━━━━━━━━━━━━━━━━━━━\n\n📝 รอแอดมินยืนยันยอดและแจ้งเลขบัญชีสักครู่นะคะ 🤍`;
+            msg += `━━━━━━━━━━━━━━━━━━━━\nยอดรวม : ${total} ฿\nค่าจัดส่ง : ${shippingFee} ฿\nยอดสุทธิ : ${grandTotal} ฿\n━━━━━━━━━━━━━━━━━━━━\n\n
+            📝 รอแอดมินยืนยันยอดและแจ้งเลขบัญชีสักครู่นะคะ
+
+ชำระเงินเรียบร้อยแล้ว  
+แจ้งชื่อ ที่อยู่ และเบอร์โทรสำหรับจัดส่งได้เลยนะคะ 🤍`;
             
             // กำหนดเป้าหมายว่าจะเด้งไปลิงก์แอปไหน
             let targetUrl = ''; let platformName = '';
-            if (platform === 'facebook') { targetUrl = 'https://www.facebook.com/people/Handmade-Velvet/61576435436598/'; platformName = 'Facebook'; } 
-            else if (platform === 'line') { targetUrl = 'https://line.me/ti/p/scb3ENQZV2'; platformName = 'LINE'; } 
+                        if (platform === 'facebook') { targetUrl = 'https://www.facebook.com/people/Handmade-Velvet/61576435436598/'; platformName = 'Facebook'; } 
+            else if (platform === 'line') { targetUrl = 'https://line.me/ti/p/~0858083230'; platformName = 'LINE'; } 
             else { targetUrl = 'https://www.instagram.com/handmade_velvet'; platformName = 'Instagram'; }
 
             // สั่งคัดลอกข้อความลงมือถือ แล้วเด้งเปิดหน้าแอป
@@ -321,11 +325,13 @@ const app = {
             } catch(err) { window.location.href = targetUrl; }
         },
         
-        // อัปเดตตัวเลข ตัวอักษร บนหน้าจอทุกครั้งที่มีการกดเพิ่ม/ลด/ลบของ
+               // อัปเดตตัวเลข ตัวอักษร บนหน้าจอทุกครั้งที่มีการกดเพิ่ม/ลด/ลบของ
         updateUI() {
             const elItems = document.getElementById('cart-items'); const selectedItems = app.state.cart.filter(i => i.selected);
             const subTotal = selectedItems.reduce((s, i) => s + (i.price * i.qty), 0); const shippingFee = selectedItems.length > 0 ? 50 : 0; const grandTotal = subTotal + shippingFee;
-            const totalItems = app.state.cart.reduce((s, i) => s + i.qty, 0);
+            
+            // 🔥 จุดที่แก้ไข: นับแค่ "จำนวนแบบสินค้า" (ความยาวของรายการ) ไม่ใช่จำนวนชิ้นรวม
+            const totalItems = app.state.cart.length; 
             
             // อัปเดตตัวเลขบนปุ่มตะกร้า
             const badge = document.getElementById('cart-badge'); const badgeFloat = document.getElementById('cart-badge-float'); 
@@ -385,4 +391,5 @@ const app = {
 
 // สั่งให้เว็บโหลดระบบทั้งหมดเมื่อเปิดหน้า
 document.addEventListener('DOMContentLoaded', () => app.init());
+
 
